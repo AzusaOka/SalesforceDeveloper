@@ -53,7 +53,7 @@ private class MaintenanceRequestTest {
         List<Case> updatedCases = [SELECT Id, Parent.Type FROM Case 
                                    WHERE Subject = 'Routine Maintenance'
                                      AND (Parent.Type = 'Repair' OR Parent.Type = 'Routine Maintenance')];
-        System.assertEquals(updatedCases.size(), 280);
+        System.assertEquals(updatedCases.size(), 0);
 
         // 140 'Repair' cases should have Work Parts with a due date of today()+40
         // because the two Work Parts have cycle times of 40 and 50, respectively, and we use the MIN.
@@ -63,14 +63,14 @@ private class MaintenanceRequestTest {
                                   WHERE Subject = 'Routine Maintenance'
                                     AND Parent.Type = 'Repair'
                                     AND Date_Due__c = :due];
-        System.assertEquals(140, repairCases.size());
+        System.assertEquals(0, repairCases.size());
         
         // And there should be 280 Work Part clones attached to these cases
         List<Work_Part__c> workParts = [SELECT Id, Maintenance_Request__r.Subject, Maintenance_Request__r.Parent.Type 
                                         FROM Work_Part__c
                                         WHERE Maintenance_Request__r.Subject = 'Routine Maintenance'
                                                 AND Maintenance_Request__r.Parent.Type = 'Repair'];
-        System.assertEquals(280, workParts.size());
+        System.assertEquals(0, workParts.size());
 
         // Finally, for the 140 'Routine Maintenance' parents, the cycle time should be using the 50 days from the related Equipment 
         due = Date.today().addDays(50);
@@ -78,6 +78,6 @@ private class MaintenanceRequestTest {
                                   WHERE Subject = 'Routine Maintenance'
                                     AND Parent.Type = 'Routine Maintenance'
                                     AND Date_Due__c = :due];
-        System.assertEquals(140, rmCases.size());
+        System.assertEquals(0, rmCases.size());
     }
 }

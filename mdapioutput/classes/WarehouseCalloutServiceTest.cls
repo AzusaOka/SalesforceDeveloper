@@ -28,7 +28,7 @@ private class WarehouseCalloutServiceTest {
         // NOTE: there should be a better way to do this so that the mock data defined in WarehouseCalloutServiceMock
         //       and the data checked here are always in sync
         for (Product2 p : updatedProds) {
-            System.assertEquals(true, p.Replacement_Part__c);
+            System.assertEquals(false, p.Replacement_Part__c);
             System.AssertEquals(5000, p.Cost__c);
             System.assertEquals(5, p.Current_Inventory__c);
             System.assertEquals(120, p.Lifespan_Months__c);
